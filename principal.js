@@ -20,7 +20,7 @@ function removeCartao(){
 	//tira da pagina depois da animação
 	setTimeout(function(){
 		cartao.remove();
-	}, 400)
+	}, 300)
 };
 
 // Pega os botões
