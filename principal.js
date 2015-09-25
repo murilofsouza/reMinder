@@ -11,17 +11,17 @@ mural.classList.toggle("mural--linhas"); //Evento de clicar para adicionar e rem
 		this.textContent = "Linhas";
 	}
 });
-
+	
 //Remover Cartão
 function removeCartao(){
 	var cartao = $("#cartao_" + $(this).data("ref"));
 	//da uma classe que faz ele sumir devagar
-	cartao.addClass("cartao--some");
+	cartao.addClass('cartao--some');
 	//tira da pagina depois da animação
 	setTimeout(function(){
 		cartao.remove();
-	}, 400);
-}
+	}, 400)
+};
 
 // Pega os botões
 var botoes = document.querySelectorAll(".opcoesDoCartao-remove");
@@ -29,3 +29,36 @@ var botoes = document.querySelectorAll(".opcoesDoCartao-remove");
 	//adiciona o evento em cada botão
 	botoes[i].addEventListener("click", removeCartao);
 };
+	
+// Criando o contador
+var contador = $(".cartao").length;
+// Criando um novo cartão
+$(".novoCartao").submit(function(event){
+	var campoConteudo = $(".novoCartao-conteudo");
+	var conteudo = campoConteudo.val().trim()
+										.replace(/\n/g, "<br>");
+
+	if (conteudo){
+		//soma um no contador
+		contador++;
+		//cria atributo data-ref
+		var botaoRemove = $("<button>").addClass("opcoesDoCartao-remove")
+										.attr("data-ref", contador)
+										.text("Remover")
+										.click(removeCartao);
+
+		var opceos = $("<div>").addClass("opcoesDoCartao")
+								.append(botaoRemove);
+
+		var conteudoTag = $("<p>").addClass("cartao-conteudo")
+									.append(conteudo);
+		//cria atributo id
+		$("<div>").attr("id", "cartao_" + contador)
+					.addClass("cartao")
+					.append(opcoes)
+					.append(conteudoTag)
+					.prependTo(".mural");
+	}
+	campoConteudo.val("");
+	event.preventDefault();
+});
